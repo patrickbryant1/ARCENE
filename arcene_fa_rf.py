@@ -151,10 +151,12 @@ def plot_training(store_means, store_stds, cv_results_params):
     clr_list = ['bo', 'ko', 'yo', 'co', 'mo'] #list of colors
     for key in organize_parameters:
         parameter = organize_parameters[key]
+        label = str(parameter) + ' divided by ' + str(max(parameter)) #set label
         #Normalize
         parameter = [x /max(parameter) for x in parameter]
-        plt.plot(number_of_combinations, parameter, clr_list[i])
+        plt.plot(number_of_combinations, parameter, clr_list[i], label = label)
         i += 1
+
 
     #plot x-label, set legend position and show plot
     plt.xlabel('combination')
@@ -186,11 +188,11 @@ def plot_fa(fa):
 
 #Parameter grid
 #Parameters of pipelines can be set using __ separated parameter names
-param_grid = {'reduce_dim__n_components': [20,60,100],
-        'classify__n_estimators': [10, 50, 100],
-	'classify__verbose': [0,10,50],
-        'classify__max_depth': [1,5,15],
-        'classify__min_samples_split': [2,10,15]}
+param_grid = {'reduce_dim__n_components': [20,60],
+        'classify__n_estimators': [10, 50],
+	'classify__verbose': [0,10],
+        'classify__max_depth': [5,15],
+        'classify__min_samples_split': [2,10]}
    
 #Create pipeline
 random_forest = RandomForestClassifier()
