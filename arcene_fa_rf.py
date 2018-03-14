@@ -174,7 +174,7 @@ def plot_fa(fa):
     plt.figure(1, figsize=(4, 3))
     plt.clf()
     plt.axes([.2, .2, .7, .7])
-    plt.plot(fa.explained_variance_, linewidth=2)
+    plt.plot(fa.explained_variance_, linewidth=2) #plot explained variance
     plt.axis('tight')
     plt.xlabel('n_components')
     plt.ylabel('explained_variance_')
@@ -186,11 +186,11 @@ def plot_fa(fa):
 
 #Parameter grid
 #Parameters of pipelines can be set using __ separated parameter names
-param_grid = {'reduce_dim__n_components': [1,10,20,40,80,100],
-        'classify__n_estimators': [2, 5, 10, 20, 50, 100],
-	'classify__verbose': [0, 2, 3, 4, 5, 10],
-        'classify__max_depth': [1,3,5,7,9,15],
-        'classify__min_samples_split': [2,4,6,8,10,15]}
+param_grid = {'reduce_dim__n_components': [20,60,100],
+        'classify__n_estimators': [10, 50, 100],
+	'classify__verbose': [0,10,50],
+        'classify__max_depth': [1,5,15],
+        'classify__min_samples_split': [2,10,15]}
    
 #Create pipeline
 random_forest = RandomForestClassifier()
