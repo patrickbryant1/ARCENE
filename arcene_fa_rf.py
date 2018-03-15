@@ -135,25 +135,6 @@ def plot_training(store_means, store_stds):
     plt.axis('tight')
     plt.show()
 
-            
-def plot_fa(fa):
-    '''
-    A function that plots the explained variance as a function
-    of the number of training examples, in order to see how many
-    are needed.
-    input = factor analysis function
-    '''
-    fa.fit(train_data) #fit to train_data
-    
-    plt.figure(1, figsize=(4, 3))
-    plt.clf()
-    plt.axes([.2, .2, .7, .7])
-    plt.plot(fa.explained_variance_, linewidth=2) #plot explained variance
-    plt.axis('tight')
-    plt.xlabel('n_components')
-    plt.ylabel('explained_variance_')
-    plt.show()
-
 ###
 #Main program
 ###
@@ -174,6 +155,3 @@ pipe = Pipeline(steps=[('reduce_dim', fa), ('classify', random_forest)])
 
 #Optimize parameters in parameter grid
 best_classifiers = parameter_optimization(param_grid, pipe)
-
-#Plot explained variance as a function of number of number of components
-plot_fa(fa)
