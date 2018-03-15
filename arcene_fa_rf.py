@@ -151,7 +151,7 @@ def plot_training(store_means, store_stds, cv_results_params):
     clr_list = ['bo', 'ko', 'yo', 'co', 'mo'] #list of colors
     for key in organize_parameters:
         parameter = organize_parameters[key]
-        label = str(parameter) + ' divided by ' + str(max(parameter)) #set label
+        label = str(key) #set label
         #Normalize
         parameter = [x /max(parameter) for x in parameter]
         plt.plot(number_of_combinations, parameter, clr_list[i], label = label)
