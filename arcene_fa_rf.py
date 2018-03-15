@@ -86,7 +86,6 @@ def parameter_optimization(param_grid, pipe):
             store_means[score] = means
             stds = clf.cv_results_['std_test_score']
             store_stds[score] = stds
-            cv_results_params = clf.cv_results_['params']
             for mean, std, params in zip(means, stds, clf.cv_results_['params']):
                 file.write('mean test score: ')
                 file.write("%0.3f (+/-%0.03f) for %r"
@@ -105,62 +104,35 @@ def parameter_optimization(param_grid, pipe):
 
     
     #Plot the training
-    plot_training(store_means, store_stds, cv_results_params)   
+    plot_training(store_means, store_stds)   
         
     return best_classifiers
 
-def plot_training(store_means, store_stds, cv_results_params):
+def plot_training(store_means, store_stds):
     '''A function that plots the means and stds for the training using
     GridSearchCV and the values of the corresponding parameters.
     Input = store_means, store_stds, cv_results_params (dicts)
     '''
-    
-    organize_parameters = {'reduce_dim__n_components' : [], 'classify__n_estimators' : [],
-    'classify__verbose' : [], 'classify__max_depth' : [], 'classify__min_samples_split' : []}
-    number_of_combinations = []
-
-    
-
-    x= 0 #Number of combinations
-    for params in cv_results_params:
-        organize_parameters['reduce_dim__n_components'].append(params['reduce_dim__n_components'])
-        organize_parameters['classify__n_estimators'].append(params['classify__n_estimators'])
-	organize_parameters['classify__verbose'].append(params['classify__verbose'])
-        organize_parameters['classify__max_depth'].append(params['classify__max_depth'])
-        organize_parameters['classify__min_samples_split'].append(params['classify__min_samples_split'])
-        x+=1
-	number_of_combinations.append(x)
-
+  
     #Plot grid and set y-axis
     plt.grid()
-    axes = plt.gca()
-    axes.set_ylim([-0.1,1.1])
     #Plot means and stds
     means_colors = {'precision': 'r', 'recall': 'g'} #colors
     for score in store_means:
         means = store_means[score]
         stds = store_stds[score]
+	number_of_combinations = list(range(1,len(means)+1)) #Number of combinations
         means_plus = [i + 2*j for i, j in zip(means, stds)]
         means_minus = [i - 2*j for i, j in zip(means, stds)]
 
         plt.fill_between(number_of_combinations, means_minus, means_plus, alpha=0.1,color=means_colors[score])
         plt.plot(number_of_combinations, means, 's-', color=means_colors[score], label= str(score))
-   
-   #Plot parameter values
-    i = 0 #keep track of color
-    clr_list = ['bo', 'ko', 'yo', 'co', 'mo'] #list of colors
-    for key in organize_parameters:
-        parameter = organize_parameters[key]
-        label = str(key) #set label
-        #Normalize
-        parameter = [x /max(parameter) for x in parameter]
-        plt.plot(number_of_combinations, parameter, clr_list[i], label = label)
-        i += 1
-
 
     #plot x-label, set legend position and show plot
-    plt.xlabel('combination')
-    plt.legend(loc="best")   
+    plt.ylabel('Mean test score')
+    plt.xlabel('Combination')
+    plt.legend(loc="best")
+    plt.axis('tight')
     plt.show()
 
             
