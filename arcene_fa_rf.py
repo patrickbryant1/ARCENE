@@ -111,7 +111,7 @@ def parameter_optimization(param_grid, pipe):
 def plot_training(store_means, store_stds):
     '''A function that plots the means and stds for the training using
     GridSearchCV and the values of the corresponding parameters.
-    Input = store_means, store_stds, cv_results_params (dicts)
+    Input = store_means, store_stds (dicts)
     '''
   
     #Plot grid and set y-axis
